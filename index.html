@@ -84,7 +84,6 @@
     <header>
       <div>
         <div class="title"> Portfolio Projects </div>
-        <div class="subtitle">Projetos completos baseados em problemas reais aplicando DS, ML, GenAI.</div>
         <div class="subtitle">Welcome to my portfolio projects applying DS, ML, and GenAI to real-world problems in end to end solutions..</div>
       </div>
       <div class="count" id="count"></div>
@@ -102,9 +101,9 @@
         </div>
 
         <div class="field">
-          <label class="label" for="seg">Segmento</label>
+          <label class="label" for="seg">Segment</label>
           <select id="seg">
-            <option value="">Todos os segmentos</option>
+            <option value="">All segments</option>
             <option>🏭Industry & Manufacturing</option>
             <option>🛢️Oil & Gas</option>
             <option>🏦Finance</option>
@@ -114,9 +113,9 @@
         </div>
         
         <div class="field">
-          <label class="label" for="cat">Categoria</label>
+          <label class="label" for="cat">Category</label>
           <select id="cat">
-            <option value="">Todas as categorias</option>
+            <option value="">All categories</option>
             <option>Machine Learning</option>
             <option>GenAI</option>
             <option>DataViz</option>
@@ -129,9 +128,9 @@
         <div class="field">
           <label class="label" for="status">Status</label>
           <select id="status">
-            <option value="">Todos os status</option>
-            <option value="Concluído">Concluído</option>
-            <option value="Em andamento">Em andamento</option>
+            <option value="">All status</option>
+            <option value="Done">Done</option>
+            <option value="On going">On going</option>
           </select>
         </div>
       </div>
@@ -141,12 +140,12 @@
           <thead>
             <tr>
               <!-- 🔧 ORDEM DAS COLUNAS: Índice > Projeto > Descrição > Segmento > Categoria > Ferramentas > Status -->
-              <th style="width:72px; text-align:center;">Índice</th>
-              <th style="min-width:150px;">Projeto</th>
-              <th style="min-width:220px;">Descrição</th>
-              <th>Segmento</th>
-              <th>Categoria</th>
-              <th style="min-width:220px;">Ferramentas</th>
+              <th style="width:72px; text-align:center;">Index</th>
+              <th style="min-width:150px;">Project</th>
+              <th style="min-width:220px;">Description</th>
+              <th>Segment</th>
+              <th>Category</th>
+              <th style="min-width:220px;">Tools</th>
               <th>Status</th>
             </tr>
           </thead>
@@ -176,7 +175,7 @@
         categoria: 'Machine Learning',
         segmento: '🏦Finance',
         ferramentas: ['cost-prediction','LogisticRegression','DecisionTreeClassifier','KNeighborsClassifier','SVM','GridSearchCV','accuracy'],
-        status: 'Concluído'
+        status: 'Done'
       },
       {
         slug: 'car_price_prediction',
@@ -186,7 +185,7 @@
         categoria: 'Machine Learning',
         segmento: '🛒Retail & E-commerce',
         ferramentas: ['price-prediction','LinearRegression','RandomForestRegressor','accuracy'],
-        status: 'Em andamento'
+        status: 'On going'
       },
       {
         slug: 'sao-paulo-real-state-price-prediction',
@@ -196,7 +195,7 @@
         categoria: 'Machine Learning',
         segmento: '🛒Retail & E-commerce',
         ferramentas: ['price-prediction','Scikit-learn','LinearRegression'],
-        status: 'Em andamento'
+        status: 'On going'
       }
         ];
 
@@ -211,7 +210,7 @@
     const makeChip = (label) => { const s = document.createElement('span'); s.className = 'chip'; s.textContent = label; return s; };
     function statusBadge(s) {
       const span = document.createElement('span');
-      span.className = 'badge ' + (s === 'Concluído' ? 'green' : 'yellow');
+      span.className = 'badge ' + (s === 'Done' ? 'green' : 'yellow');
       span.textContent = s;
       return span;
     }
