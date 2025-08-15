@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Projetos Práticos / Estudos de Caso</title>
+  <meta name="description" content="Menu de projetos de Portfolios completos aplicando DS, ML, GENAI em problemas reais" />
+
+  <style>
+    /* ===============================================
+       🔧 ALTERE AQUI: Cores do tema (claro/escuro)
+       Basta trocar os hex abaixo para personalizar.
+       =============================================== */
+    :root {
+      --bg: #0d1117;        /* fundo da página */
+      --panel: #161b22;      /* cartões, tabelas */
+      --text: #e6edf3;       /* texto principal */
+      --muted: #9ca3af;      /* texto secundário */
+      --primary: #2f81f7;    /* links e destaques */
+      --border: #30363d;     /* bordas */
+      --green: #2ea043;      /* badge concluído */
+      --yellow: #d29922;     /* badge em andamento */
+      --chip-bg: #21262d;    /* fundo dos chips de ferramentas */
+    }
+
+    /* Reset e tipografia base */
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body { height: 100%; }
+    body {
+      margin: 0;
+      font: 16px/1.6 ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+      background: var(--bg);
+      color: var(--text);
+    }
+
+    .container { max-width: 1100px; margin: 0 auto; padding: 24px; }
+    header { display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom: 20px; }
+    .title { font-size: clamp(20px, 3vw, 32px); font-weight: 700; letter-spacing: .3px; }
+    .subtitle { color: var(--muted); font-size: 14px; }
+
+    .card { background: var(--panel); border: 1px solid var(--border); border-radius: 14px; padding: 16px; }
+
+    /* ===============================================
+       ✔ Filtros: labels visíveis, grid fluido e altura consistente
+       =============================================== */
+    .controls { display:grid; grid-template-columns: 1fr; gap: 12px; margin-bottom: 16px; }
+    /* 🔧 ALTERE AQUI: distribuição dos filtros no desktop (ordem: Busca, Categorias, Segmentos, Status) */
+    @media (min-width: 720px) { .controls { grid-template-columns: 2fr 1fr 1fr 1fr; } }
+
+    .field { display:flex; flex-direction: column; gap: 6px; }
+    .label { font-size: 13px; color: var(--muted); }
+
+    input[type="search"], select {
+      width: 100%;
+      -webkit-appearance: none; /* corrige iOS */
+      -moz-appearance: none;
+      appearance: none;
+      background: var(--bg);
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 10px 12px;
+      min-height: 42px;           /* altura consistente */
+      line-height: 1.2;
+      outline: none;
+    }
+    input::placeholder { color: var(--muted); }
+
+    table { width: 100%; border-collapse: collapse; }
+    thead th { text-align: left; font-weight: 600; color: var(--muted); padding: 10px 12px; border-bottom: 1px solid var(--border); position: sticky; top: 0; background: var(--panel); z-index: 1; }
+    tbody td { padding: 12px; border-bottom: 1px solid var(--border); vertical-align: top; }
+    tbody tr:hover { background: rgba(46, 51, 59, 0.35); }
+    a { color: var(--primary); text-decoration: none; }
+    .chip { display:inline-block; background: var(--chip-bg); border:1px solid var(--border); padding: 2px 8px; border-radius: 999px; font-size: 12px; margin: 2px 4px 2px 0; }
+    .badge { font-size: 12px; padding: 4px 10px; border-radius: 999px; font-weight: 600; display:inline-flex; align-items:center; gap:6px; border:1px solid var(--border); }
+    .badge.green  { background: rgba(46,160,67,.15); color: #7ee787; }
+    .badge.yellow { background: rgba(210,153,34,.15); color: #e3b341; }
+    .count { color: var(--muted); font-size: 12px; }
+    .footer { color: var(--muted); font-size: 12px; margin-top: 18px; text-align:center; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div>
+        <div class="title"> Portfolio de Projetos </div>
+        <div class="subtitle">Projetos completos baseados em problemas reais aplicando DS, ML, GenAI.</div>
+        <div class="subtitle">Bem-vindo(a)!  
+          Este repositório reúne **estudos de caso e soluções práticas** desenvolvidos para resolver **problemas reais** usando **Ciência de Dados, Machine Learning e Inteligência Artificial**.  
+          Cada projeto é baseado em um cenário do mundo real, com foco em gerar **insights acionáveis** e **resultados mensuráveis**.</div>
+      </div>
+      <div class="count" id="count"></div>
+    </header>
+
+    <section class="card">
+      <!-- =============================================
+           🔧 ALTERE AQUI: Labels e placeholders dos filtros
+           (texto exibido nas caixas de pesquisa)
+           ============================================= -->
+      <div class="controls" role="region" aria-label="Filtros">
+        <div class="field">
+          <label class="label" for="q">Busca</label>
+          <input id="q" type="search" placeholder="Busque por projeto, descrição ou ferramenta… (ex.: Logistic, ARIMA, NLP)" />
+        </div>
+
+        <div class="field">
+          <label class="label" for="seg">Segmento</label>
+          <select id="seg">
+            <option value="">Todos os segmentos</option>
+            <option>🏭Industry & Manufacturing</option>
+            <option>🛢️Oil & Gas</option>
+            <option>🏦Finance</option>
+            <option>🛒Retail & E-commerce</option>
+            <option>🏥Healthcare</option>
+          </select>
+        </div>
+        
+        <div class="field">
+          <label class="label" for="cat">Categoria</label>
+          <select id="cat">
+            <option value="">Todas as categorias</option>
+            <option>Machine Learning</option>
+            <option>GenAI</option>
+            <option>DataViz</option>
+            <option>BI</option>
+            <option>DevOps</option>
+          </select>
+        </div>
+
+
+        <div class="field">
+          <label class="label" for="status">Status</label>
+          <select id="status">
+            <option value="">Todos os status</option>
+            <option value="Concluído">Concluído</option>
+            <option value="Em andamento">Em andamento</option>
+          </select>
+        </div>
+      </div>
+
+      <div style="overflow:auto; border-radius:10px;">
+        <table id="projects" aria-describedby="count">
+          <thead>
+            <tr>
+              <!-- 🔧 ORDEM DAS COLUNAS: Índice > Projeto > Descrição > Segmento > Categoria > Ferramentas > Status -->
+              <th style="width:72px; text-align:center;">Índice</th>
+              <th style="min-width:150px;">Projeto</th>
+              <th style="min-width:220px;">Descrição</th>
+              <th>Segmento</th>
+              <th>Categoria</th>
+              <th style="min-width:220px;">Ferramentas</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+
+      <div class="footer">Dica: clique no nome do projeto para abrir o repositório correspondente (link definido no DATA).</div>
+    </section>
+  </div>
+
+  <script>
+    // ==============================================================
+    // 🔧 Dados dos projetos (links MANUAIS por item)
+    // Campos:
+    //  - slug: nome da pasta (opcional, ajuda nas buscas)
+    //  - nome: título do projeto (exibido na tabela)
+    //  - link: URL do repositório/folder do projeto no GitHub (OBRIGATÓRIO)
+    //  - descricao, categoria, segmento, ferramentas, status
+    // ==============================================================
+    const DATA = [
+      {
+        slug: 'space-y-capstone-project',
+        nome: 'Previsão de Custos de Lançamento de Foguetes SpaceX via API + Webscrapping',
+        link: 'https://github.com/reynancs/spacey-launch-cost-prediction', // 🔧 cole o link do GitHub aqui
+        descricao: 'Projeto de previsão de custos com classificação do resultado da recuperação da primeira fase de foguetes utilizando a API da SpaceX.',
+        categoria: 'Machine Learning',
+        segmento: '🏦Finance',
+        ferramentas: ['cost-prediction','LogisticRegression','DecisionTreeClassifier','KNeighborsClassifier','SVM','GridSearchCV','accuracy'],
+        status: 'Concluído'
+      },
+      {
+        slug: 'car_price_prediction',
+        nome: 'Previsão de Preços de Carros',
+        link: 'https://github.com/reynancs/car_price_prediction', // 🔧 cole o link do GitHub aqui
+        descricao: 'Previsão de preços de carros com Regressão Linear e Random Forest.',
+        categoria: 'Machine Learning',
+        segmento: '🛒Retail & E-commerce',
+        ferramentas: ['price-prediction','LinearRegression','RandomForestRegressor','accuracy'],
+        status: 'Em andamento'
+      },
+      {
+        slug: 'sao-paulo-real-state-price-prediction',
+        nome: 'Predição de Preços com Regressão',
+        link: 'https://github.com/reynancs/sao-paulo-real-state-price-prediction', // 🔧 cole o link do GitHub aqui
+        descricao: 'Predição de Preços de Imóveis de Aluguel em São Paulo',
+        categoria: 'Machine Learning',
+        segmento: '🛒Retail & E-commerce',
+        ferramentas: ['price-prediction','Scikit-learn','LinearRegression'],
+        status: 'Em andamento'
+      }
+        ];
+
+    // ===== Seletores e utilitários =================================
+    const tbody = document.querySelector('#projects tbody');
+    const q = document.getElementById('q');
+    const cat = document.getElementById('cat');
+    const seg = document.getElementById('seg');
+    const statusSel = document.getElementById('status');
+    const counter = document.getElementById('count');
+
+    const makeChip = (label) => { const s = document.createElement('span'); s.className = 'chip'; s.textContent = label; return s; };
+    function statusBadge(s) {
+      const span = document.createElement('span');
+      span.className = 'badge ' + (s === 'Concluído' ? 'green' : 'yellow');
+      span.textContent = s;
+      return span;
+    }
+
+    // ===== Renderização da tabela (corrigido) ======================
+    function render() {
+      const term = q.value.toLowerCase();
+      const catV = cat.value; const segV = seg.value; const stV = statusSel.value;
+      tbody.innerHTML = ''; let shown = 0;
+
+      DATA
+        .filter(p => {
+          const matchTerm = !term || (
+            (p.slug||'').toLowerCase().includes(term) ||
+            p.nome.toLowerCase().includes(term) ||
+            p.descricao.toLowerCase().includes(term) ||
+            p.ferramentas.join(' ').toLowerCase().includes(term)
+          );
+          const matchCat = !catV || p.categoria === catV;
+          const matchSeg = !segV || p.segmento === segV;
+          const matchSt  = !stV  || p.status === stV;
+          return matchTerm && matchCat && matchSeg && matchSt;
+        })
+        .forEach(p => {
+          const tr = document.createElement('tr');
+
+          // 🔢 Índice incremental (1, 2, 3, ...). A contagem reinicia conforme filtros aplicados
+          const tdIdx = document.createElement('td');
+          tdIdx.style.textAlign = 'center';
+          tdIdx.textContent = String(shown + 1);
+
+          // 🔗 Projeto com link definido em p.link
+          const tdNome = document.createElement('td');
+          if (p.link) {
+            tdNome.innerHTML = `<a href="${p.link}" target="_blank" rel="noopener">${p.nome}</a>`;
+          } else {
+            tdNome.textContent = p.nome;
+            tdNome.title = 'Adicione o campo "link" no DATA para habilitar o acesso ao GitHub.';
+          }
+
+          const tdDesc = document.createElement('td'); tdDesc.textContent = p.descricao;
+          const tdSeg  = document.createElement('td'); tdSeg.textContent  = p.segmento;
+          const tdCat  = document.createElement('td'); tdCat.textContent  = p.categoria;
+          const tdTools = document.createElement('td'); p.ferramentas.forEach(t => tdTools.appendChild(makeChip(t)));
+          const tdSt = document.createElement('td'); tdSt.appendChild(statusBadge(p.status));
+
+          // 📑 ORDEM FINAL: Índice > Projeto > Descrição > Segmento > Categoria > Ferramentas > Status
+          tr.append(tdIdx, tdNome, tdDesc, tdSeg, tdCat, tdTools, tdSt);
+          tbody.appendChild(tr); shown++;
+        });
+
+      counter.textContent = `${shown} projeto${shown === 1 ? '' : 's'} exibido${shown === 1 ? '' : 's'}`;
+    }
+
+    // Eventos dos filtros
+    q.addEventListener('input', render);
+    cat.addEventListener('change', render);
+    seg.addEventListener('change', render);
+    statusSel.addEventListener('change', render);
+
+    // Primeira renderização
+    render();
+
+    // ================== TESTES AUTOMÁTICOS (não quebram a página) ==================
+    // Verificações simples no console para garantir que a renderização e os filtros funcionam.
+    (function runTests() {
+      try {
+        // 1) Quantidade de linhas == quantidade de itens (sem filtro)
+        let rows = tbody.querySelectorAll('tr').length;
+        console.assert(rows === DATA.length, `Teste 1 falhou: linhas(${rows}) != DATA(${DATA.length})`);
+
+        // 2) Índices sequenciais começando em 1
+        const idxOk = Array.from(tbody.querySelectorAll('tr td:first-child'))
+          .every((td, i) => td.textContent.trim() === String(i+1));
+        console.assert(idxOk, 'Teste 2 falhou: índices não estão sequenciais.');
+
+        // 3) Filtro por status "Concluído"
+        const oldStatus = statusSel.value;
+        statusSel.value = 'Concluído';
+        render();
+        rows = tbody.querySelectorAll('tr').length;
+        const allDone = Array.from(tbody.querySelectorAll('tr td:last-child'))
+          .every(td => td.textContent.includes('Concluído'));
+        console.assert(allDone, 'Teste 3 falhou: filtro de status não aplicou corretamente.');
+
+        // Reset filtros
+        statusSel.value = oldStatus || '';
+        render();
+        console.log('%cTestes concluídos', 'color:#7ee787');
+      } catch (e) {
+        console.warn('Falha nos testes:', e);
+      }
+    })();
+  </script>
+</body>
+</html>
