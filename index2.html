@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Portfolio Projects</title>
+  <meta name="description" content="Welcome to my portfolio projects applying DS, ML, and GenAI to real-world problems in end to end solutions." />
+
+  <style>
+    /* ===============================================
+       🎨 THEME COLORS (dark)
+       Change hex values below to customize.
+       =============================================== */
+    :root {
+      --bg: #0d1117;        /* page background */
+      --panel: #161b22;     /* cards, tables */
+      --text: #e6edf3;      /* primary text */
+      --muted: #9ca3af;     /* secondary text */
+      --primary: #2f81f7;   /* links & highlights */
+      --border: #30363d;    /* borders */
+      --green: #2ea043;     /* completed badge */
+      --yellow: #d29922;    /* in-progress badge */
+      --chip-bg: #21262d;   /* tool chips background */
+    }
+
+    /* Reset & base typography */
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body { height: 100%; }
+    body {
+      margin: 0;
+      font: 16px/1.6 ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+      background: var(--bg);
+      color: var(--text);
+    }
+
+    .container { max-width: 1100px; margin: 0 auto; padding: 24px; }
+    header { display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom: 20px; }
+    .title { font-size: clamp(20px, 3vw, 32px); font-weight: 700; letter-spacing: .3px; }
+    .subtitle { color: var(--muted); font-size: 14px; }
+
+    .card { background: var(--panel); border: 1px solid var(--border); border-radius: 14px; padding: 16px; }
+
+    /* ===============================================
+       ✔ Filters: visible labels, fluid grid, consistent height
+       =============================================== */
+    .controls { display:grid; grid-template-columns: 1fr; gap: 12px; margin-bottom: 16px; }
+    /* Desktop distribution: Search, Segments, Categories, Status */
+    @media (min-width: 720px) { .controls { grid-template-columns: 2fr 1fr 1fr 1fr; } }
+
+    .field { display:fl
