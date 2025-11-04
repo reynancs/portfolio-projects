@@ -174,7 +174,7 @@
         descricao: 'Criação de Modelo para redução de falsos negativos em um case de desbalanceamento de classe positiva',
         categoria: 'Machine Learning',
         segmento: '🏭Industry & Manufacturing',
-        ferramentas: ['preprocessor','pipeline''LogisticRegression','RandomForest','XGBoost','SVM','GridSearchCV','recall'],
+        ferramentas: ['preprocessor','pipeline','LogisticRegression','RandomForest','XGBoost','SVM','GridSearchCV','recall'],
         status: 'Done'
       },
       {
@@ -289,11 +289,11 @@
 
         // 3) Filtro por status "Concluído"
         const oldStatus = statusSel.value;
-        statusSel.value = 'Concluído';
+        statusSel.value = 'Done';
         render();
         rows = tbody.querySelectorAll('tr').length;
         const allDone = Array.from(tbody.querySelectorAll('tr td:last-child'))
-          .every(td => td.textContent.includes('Concluído'));
+          .every(td => td.textContent.includes('Done'));
         console.assert(allDone, 'Teste 3 falhou: filtro de status não aplicou corretamente.');
 
         // Reset filtros
